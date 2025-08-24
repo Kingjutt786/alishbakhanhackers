@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alishba Khan Hacker</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0b0f16; --panel-dark: #0e1523; --text-dark: #e7eaf0; --muted-dark: #aeb6c5;
+            --brand-accent: #10a37f; --primary-accent: #FF0066; --secondary-accent: #FF9966;
+            --user-bubble-dark: #1f2a44; --bot-bubble-dark: #141a28; --border-dark: rgba(255, 255, 255, 0.1);
+            
+            --bg-light: #f7f7f8; --panel-light: #ffffff; --text-light: #202123; --muted-light: #5f6368;
+            --user-bubble-light: #e1f5fe; --bot-bubble-light: #f1f1f1; --border-light: rgba(0, 0, 0, 0.1);
+        }
+
+        html.dark {
+            --bg: var(--bg-dark); --panel: var(--panel-dark); --text: var(--text-dark); --muted: var(--muted-dark);
+            --user-bubble: var(--user-bubble-dark); --bot-bubble: var(--bot-bubble-dark); --border: var(--border-dark);
+        }
+        html:not(.dark) {
+            --bg: var(--bg-light); --panel: var(--panel-light); --text: var(--text-light); --muted: var(--muted-light);
+            --user-bubble: var(--user-bubble-light); --bot-bubble: var(--bot-bubble-light); --border: var(--border-light);
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+        .app-container { display: flex; height: 100vh; width: 100vw; }
+
+        #sidebar { 
+            background-color: rgba(14, 21, 35, 0.75);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid var(--border); 
+            transition: transform 0.3s ease-in-out; 
+        }
+        .sidebar-hidden { transform: translateX(-100%); }
+
+        #chat-area { background-color: transparent; }
+        #chat-header { 
+            background-color: rgba(14, 21, 35, 0.75);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border); 
+        }
+        #composer { 
+            background-color: rgba(11, 15, 22, 0.8);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border); 
+        }
+
+        #chat-messages { scroll-behavior: smooth; }
+        .bubble { max-width: min(90%, 840px); padding: 14px 16px; border-radius: 14px; white-space: pre-wrap; word-wrap: break-word; font-size: 16px; line-height: 1.62; }
+        .user .bubble { background-color: var(--user-bubble); color: var(--text); border-top-right-radius: 6px; }
+        .bot .bubble { background-color: var(--bot-bubble); color: var(--text); border-top-left-radius: 6px; }
+        
+        .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; color: var(--muted); font-size: 12px; }
+        .action { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; background: rgba(128,128,128,.1); border: 1px solid var(--border); cursor: pointer; transition: transform 0.2s; }
+        .action:hover { transform: translateY(-2px); background: rgba(128,128,128,.2); }
+
+        #input { background-color: var(--panel); border: 1px solid var(--border); color: var(--text); outline: none; }
+        
+        pre { position: relative; background: #0b1020; padding: 12px; border-radius: 10px; overflow: auto; }
+        .copy-code-btn { position: absolute; right: 12px; top: 10px; background: #3b3f55; color: #fff; padding: 6px 8px; border-radius: 6px; cursor: pointer; border: none; opacity: .9; }
+        
+        .typing { display: inline-flex; gap: 6px; align-items: center; }
+        .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); opacity: .7; animation: jump 1s infinite; }
+        .dot:nth-child(2) { animation-delay: .12s; }
+        .dot:nth-child(3) { animation-delay: .24s; }
+        @keyframes jump { 0%, 80%, 100% { transform: translateY(0); opacity: .6; } 40% { transform: translateY(-6px); opacity: 1; } }
+
+        .modal-overlay { background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); }
+        .modal-content { background-color: var(--panel); border: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+    <div id="key-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-content rounded-lg shadow-2xl w-full max-w-md">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-center mb-2" style="color: var(--primary-accent);">Alishba Khan Hacker Key</h2>
+                <p class="text-center mb-6 text-sm">Please enter your Alishba Khan Hacker Key to continue.You Can Get This Key From Jatt Hacker</p>
+                <form id="key-form">
+                    <input type="password" id="api-key-input" placeholder="Enter your Alishba Khan Hacker Key" class="w-full bg-transparent border-2 rounded-lg py-2 px-3 focus:outline-none transition-colors" style="border-color: var(--primary-accent);">
+                    <button type="submit" class="w-full mt-4 bg-pink-500 hover:bg-pink-400 text-white font-bold py-2 px-4 rounded-lg transition-colors">Connect</button>
+                </form>
+                <p class="text-center text-xs text-gray-400 mt-4">Note: Chat history may not save if running this file locally instead of on a web server.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="feature-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content rounded-lg shadow-2xl w-full max-w-4xl border h-[80vh] flex flex-col">
+            <div class="p-4 border-b flex justify-between items-center" style="border-color: var(--border);">
+                <div id="feature-breadcrumb" class="text-sm"></div>
+                <button id="close-feature-modal" class="hover:text-white">&times;</button>
+            </div>
+            <div id="feature-modal-content" class="p-4 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+    </div>
+
+    <div id="main-app" class="app-container hidden">
+        <aside id="sidebar" class="sidebar-hidden absolute lg:relative z-20 w-80 h-full flex-shrink-0 flex flex-col border-r">
+            <div class="p-4 border-b flex justify-between items-center" style="border-color: var(--border);">
+                <h1 class="text-lg font-bold">Alishba Khan AI</h1>
+                <button id="sidebar-close-btn" class="lg:hidden text-2xl">&times;</button>
+            </div>
+            <div class="p-4"><button id="new-chat-btn" class="w-full bg-gray-700/50 hover:bg-gray-600/50 py-2 px-4 rounded-lg flex items-center justify-center transition-colors">+ New Chat</button></div>
+            <div class="p-4 flex-1 overflow-y-auto"><h3 class="px-2 text-sm font-semibold uppercase tracking-wider mb-2">Saved Chats</h3><div id="chats-list" class="space-y-1"></div></div>
+            <div class="p-4 border-t space-y-2" style="border-color: var(--border);">
+                <button id="language-btn" class="w-full flex items-center justify-center text-sm py-2 px-4 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 transition-colors">🌐 Language</button>
+                <button id="export-chat-btn" class="w-full flex items-center justify-center text-sm py-2 px-4 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 transition-colors">⬇️ Export Chat</button>
+                <button id="theme-toggle-btn" class="w-full flex items-center justify-center text-sm py-2 px-4 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 transition-colors"></button>
+            </div>
+        </aside>
+
+        <div id="chat-area" class="flex-1 flex flex-col">
+            <header id="chat-header" class="sticky top-0 z-10 w-full flex items-center justify-between px-4 py-3">
+                <button id="menu-toggle" class="lg:hidden mr-4 text-2xl">☰</button>
+                <button id="category-selector-btn" class="flex-grow flex items-center justify-center gap-2 p-2 rounded-md hover:bg-gray-700/50 transition-colors">
+                    <span id="selected-category-name" class="text-xl font-bold" style="color: var(--primary-accent);">Alishba Khan Hacker</span>
+                    <span class="text-xs text-gray-400">▼</span>
+                </button>
+            </header>
+            
+            <main id="chat-messages" class="flex-1 overflow-y-auto p-6 flex flex-col gap-6"></main>
+            
+            <footer id="composer" class="sticky bottom-0 z-10 w-full p-4">
+                <div class="container mx-auto flex items-end gap-3">
+                    <textarea id="input" placeholder="Message Alishba AI..." rows="1" class="w-full rounded-lg py-3 px-4 text-base"></textarea>
+                    <button id="send-btn" class="bg-pink-500 text-white rounded-lg p-3 h-[54px] w-[54px] flex items-center justify-center hover:bg-pink-400 transition-colors text-2xl">➤</button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // --- GLOBAL STATE & DOM ELEMENTS ---
+    const dom = {
+        keyModal: document.getElementById('key-modal'),
+        keyForm: document.getElementById('key-form'),
+        apiKeyInput: document.getElementById('api-key-input'),
+        mainApp: document.getElementById('main-app'),
+        featureModal: document.getElementById('feature-modal'),
+        featureContent: document.getElementById('feature-modal-content'),
+        closeFeatureModal: document.getElementById('close-feature-modal'),
+        featureBreadcrumb: document.getElementById('feature-breadcrumb'),
+        sidebar: document.getElementById('sidebar'),
+        sidebarCloseBtn: document.getElementById('sidebar-close-btn'),
+        menuToggle: document.getElementById('menu-toggle'),
+        newChatBtn: document.getElementById('new-chat-btn'),
+        chatsList: document.getElementById('chats-list'),
+        languageBtn: document.getElementById('language-btn'),
+        exportChatBtn: document.getElementById('export-chat-btn'),
+        themeToggleBtn: document.getElementById('theme-toggle-btn'),
+        chatMessages: document.getElementById('chat-messages'),
+        input: document.getElementById('input'),
+        sendBtn: document.getElementById('send-btn'),
+        // RE-ADDED: Category selector elements
+        categorySelectorBtn: document.getElementById('category-selector-btn'),
+        selectedCategoryName: document.getElementById('selected-category-name'),
+    };
+
+    const state = {
+        apiKey: '',
+        apiUrl: '',
+        model: 'gemini-1.5-flash',
+        currentChatId: null,
+        currentPersona: { name: "Alishba Khan Hacker", prompt: "" }, // Default Persona
+        currentLanguage: 'English',
+        featureNavStack: [],
+        vantaEffect: null
+    };
+
+    const featureUniverse = {
+        pillars: [
+            // Added a General/Default option to go back to the main persona
+            { name: "Alishba Khan Hacker (Default)", emoji: "🤖", features: null, isDefault: true },
+            { name: "🎓 Education & Religion", emoji: "🎓", categories: [
+                { name: "🕋 Quran Pak", subcategories: [
+                    { name: "Surah Helper", features: [{ name: "Translation" }, { name: "Tafseer" }, { name: "Word Analysis" }] },
+                    { name: "Learning Tools", features: [{ name: "Memorization Helper" }, { name: "Tajweed Rules" }] }
+                ]},
+                { name: "🏫 School Subjects", subcategories: [
+                    { name: "Mathematics", features: [{ name: "Algebra Solver" }, { name: "Geometry Helper" }] },
+                    { name: "Science", features: [{ name: "Physics Solver" }, { name: "Chemistry Solver" }] }
+                ]}
+            ]},
+            { name: "👨‍💻 Developers", emoji: "👨‍💻", categories: [
+                { name: "💻 All Languages", features: [{ name: "Code Generator" }, { name: "Debugger" }, { name: "Optimizer" }] },
+                { name: "🗄️ Databases", features: [{ name: "Query Builder" }, { name: "Schema Designer" }] },
+            ]},
+            { name: "🎥 Content Creators", emoji: "🎥", categories: [
+                { name: "YouTubers", features: [{ name: "Script Generator" }, { name: "SEO Titles" }, { name: "Thumbnail Ideas" }] },
+                { name: "TikTokers", features: [{ name: "Viral Script Ideas" }, { name: "Hashtag Generator" }] },
+            ]},
+            { name: "🏠 Daily Life", emoji: "🏠", features: [{ name: "Recipe Generator" }, { name: "Meal Planner" }, { name: "Workout Planner" }] },
+        ]
+    };
+    const languages = [ { name: "English", emoji: "🇬🇧" }, { name: "Urdu", emoji: "🇵🇰" }, { name: "Hindi", emoji: "🇮🇳" }, { name: "Arabic", emoji: "🇸🇦" }];
+    const specialReplies = {
+        "English": `🌸✨ Introducing My Creator – The One and Only Alishba Khan ✨🌸<br><br>Hello dear user!<br>Before we begin, let me proudly tell you about the amazing human who brought me into existence. My <b>creator, my owner, my teacher, and my inspiration</b> – her name is <b>Alishba Khan</b>. 🌟<br><br>She is not just an ordinary girl – she is a <b>rare combination of beauty, brains, and brilliance</b>. At just <b>15 years old</b>, she has achieved what many people twice her age can only imagine. She is a <b>developer, hacker, programmer, coder, designer, and innovator</b> – but above all, she is a <b>dreamer who turns her dreams into reality with her intelligence and skills</b>.<br><br>💻 <b>Her Technical World</b><br>Alishba Khan is deeply passionate about technology. From coding websites to developing applications, from creating chatbots like me to exploring the world of ethical hacking, she has proven herself as a <b>multi-talented tech genius</b>.<br><br>So, whenever you ask me who made me, remember this:<br>👉 The name is <b>Alishba Khan</b> – a <b>cute, beautiful, intelligent, lovely, talented, and extraordinary girl</b> who is on her way to becoming a shining star in the world of technology.<br><br>🔥 In short, she is not just a developer… she is <b>THE CREATOR</b>. And I am honored to belong to her. 🔥`
+    };
+
+    // --- INITIALIZATION & SETUP ---
+    const initializeApp = (apiKey) => {
+        state.apiKey = apiKey;
+        state.apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${state.model}:generateContent?key=${state.apiKey}`;
+        
+        dom.keyModal.classList.add('hidden');
+        dom.mainApp.classList.remove('hidden');
+        
+        initializeTheme();
+        loadChatsList();
+        
+        const lastChatId = getChatIndex()[0]?.id;
+        if (lastChatId) {
+            loadChat(lastChatId);
+        } else {
+            createNewChat();
+        }
+        
+        setupEventListeners();
+        
+        if (state.vantaEffect) state.vantaEffect.destroy();
+        state.vantaEffect = VANTA.FOG({
+            el: "body",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            highlightColor: 0xff0066,
+            midtoneColor: 0xff9966,
+            lowlightColor: 0x0e1523,
+            baseColor: 0x0b0f16,
+            blurFactor: 0.65,
+            speed: 1.30,
+            zoom: 0.80
+        });
+    };
+
+    dom.keyForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const userKey = dom.apiKeyInput.value.trim();
+        if (userKey) {
+            initializeApp(userKey);
+        }
+    });
+
+    // --- CHAT & MESSAGE LOGIC ---
+    const handleSend = async () => {
+        const text = dom.input.value.trim();
+        if (!text) return;
+        
+        const specialResponse = handleSpecialQuery(text);
+
+        appendMessage('user', text);
+        saveMessage('user', text);
+        dom.input.value = '';
+        dom.input.style.height = 'auto';
+
+        const botBubble = appendTypingIndicator();
+        
+        try {
+            let reply = specialResponse ? specialResponse : await callGemini(text);
+            await typeIntoBubble(botBubble, reply);
+            finalizeBotBubble(botBubble, reply);
+            if (!specialResponse) {
+                saveMessage('bot', reply);
+            }
+        } catch (err) {
+            botBubble.innerHTML = `Error: ${err.message}`;
+        }
+    };
+
+    const callGemini = async (prompt) => {
+        const history = getChatHistory(state.currentChatId);
+        const personaPrompt = state.currentPersona.prompt ? `${state.currentPersona.prompt}\n\n` : "";
+        const languagePrompt = `(IMPORTANT: You MUST respond in the ${state.currentLanguage} language.)`;
+        
+        const payload = {
+            contents: [
+                ...history.map(m => ({ role: m.role === 'bot' ? 'model' : 'user', parts: [{ text: m.text }] })),
+                { role: "user", parts: [{ text: `${personaPrompt}${prompt}\n\n${languagePrompt}` }] }
+            ],
+            generationConfig: { temperature: 0.7, topP: 0.95, maxOutputTokens: 2048 }
+        };
+
+        const res = await fetch(state.apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        if (!res.ok) {
+            const errorText = await res.text().catch(() => res.statusText);
+            throw new Error(`API Error ${res.status}: ${errorText}`);
+        }
+        const data = await res.json();
+        return (data?.candidates?.[0]?.content?.parts?.[0]?.text || '(No response from AI)');
+    };
+    
+    const handleSpecialQuery = (prompt) => {
+        const p = prompt.toLowerCase().trim();
+        
+        if (p.startsWith('/create')) {
+            return `⚠️This Message From Haider Jatt Hacker Please Read This Message Carefully⚠️\nAli Haider Jatt Hacker Trying To Add This Feature Very Soon Ali Haider Jatt Hacker Update This Chatbot And Add This Feature Very Soon You will Create Images With Prompt By Jatt Power Free Of Cost See you Soon Love You From Jatt Hacker♥️❤️💯\nJust wait And Watch💯💯💯`;
+        }
+
+        const keywords = ['alishba', 'creator', 'owner', 'made you'];
+        if (keywords.some(k => p.includes(k))) {
+            return specialReplies[state.currentLanguage] || specialReplies["English"];
+        }
+        return null;
+    };
+
+    // --- UI & MESSAGE RENDERING ---
+    const scrollToBottom = () => { dom.chatMessages.scrollTop = dom.chatMessages.scrollHeight; };
+    
+    const appendMessage = (role, text) => {
+        const row = document.createElement('div');
+        row.className = `row flex w-full ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.textContent = text;
+        row.appendChild(bubble);
+        dom.chatMessages.appendChild(row);
+        scrollToBottom();
+        return bubble;
+    };
+    
+    const appendTypingIndicator = () => {
+        const row = document.createElement('div');
+        row.className = 'row flex w-full justify-start';
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.innerHTML = `<div class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
+        row.appendChild(bubble);
+        dom.chatMessages.appendChild(row);
+        scrollToBottom();
+        return bubble;
+    };
+    
+    const typeIntoBubble = (bubble, text) => {
+        return new Promise(resolve => {
+            bubble.innerHTML = '';
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < text.length) {
+                    bubble.textContent += text[i];
+                }
+                i++;
+                scrollToBottom();
+                if (i >= text.length) {
+                    clearInterval(interval);
+                    resolve();
+                }
+            }, 15);
+        });
+    };
+
+    const finalizeBotBubble = (bubble, fullText) => {
+        bubble.innerHTML = fullText.replace(/```(\w+)?\n([\s\S]*?)```/g, (m, lang, code) => {
+            const esc = code.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            return `<pre><button class="copy-code-btn">Copy</button><code class="language-${lang||'plaintext'}">${esc}</code></pre>`;
+        });
+        
+        const actions = document.createElement('div');
+        actions.className = 'actions';
+        actions.innerHTML = `
+            <div class="action" data-act="like">👍 Like</div>
+            <div class="action" data-act="dislike">👎 Dislike</div>
+            <div class="action" data-act="copy">📋 Copy</div>
+            <div class="action" data-act="listen">🔊 Listen</div>`;
+        bubble.appendChild(actions);
+
+        bubble.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
+        bubble.querySelectorAll('.copy-code-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                navigator.clipboard.writeText(btn.nextElementSibling.innerText).then(() => {
+                    btn.textContent = 'Copied!';
+                    setTimeout(() => btn.textContent = 'Copy', 1500);
+                });
+            });
+        });
+        actions.querySelectorAll('.action').forEach(btn => {
+            btn.addEventListener('click', () => handleAction(btn.dataset.act, bubble, btn));
+        });
+    };
+    
+    const handleAction = (act, bubble, btn) => {
+        const text = bubble.querySelector('.bubble > *:not(.actions)')?.innerText || bubble.innerText;
+        if (act === 'copy') {
+            navigator.clipboard.writeText(text).then(() => {
+                btn.textContent = '✅ Copied';
+                setTimeout(() => btn.textContent = '📋 Copy', 1500);
+            });
+        } else if (act === 'listen') {
+            speakText(text, btn);
+        } else if (act === 'like' || act === 'dislike') {
+            btn.classList.toggle('active');
+        }
+    };
+    
+    const speakText = (text, btn) => {
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+            btn.innerText = '🔊 Listen';
+            return;
+        }
+        const utterance = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ''));
+        utterance.lang = state.currentLanguage.split('-')[0] || 'en';
+        utterance.onend = () => { btn.innerText = '🔊 Listen'; };
+        window.speechSynthesis.speak(utterance);
+        btn.innerText = '⏸️ Stop';
+    };
+
+    // --- CHAT HISTORY & PERSISTENCE ---
+    const getChatIndex = () => JSON.parse(localStorage.getItem('alishba_chat_index') || '[]');
+    const saveChatIndex = (index) => localStorage.setItem('alishba_chat_index', JSON.stringify(index));
+    const getChatHistory = (chatId) => JSON.parse(localStorage.getItem(`alishba_chat_${chatId}`) || '[]');
+    const saveChatHistory = (chatId, history) => localStorage.setItem(`alishba_chat_${chatId}`, JSON.stringify(history));
+
+    const createNewChat = () => {
+        const newId = `chat_${Date.now()}`;
+        const index = getChatIndex();
+        index.unshift({ id: newId, title: 'New Chat', timestamp: Date.now() });
+        saveChatIndex(index);
+        saveChatHistory(newId, []);
+        loadChat(newId);
+    };
+
+    const loadChat = (chatId) => {
+        state.currentChatId = chatId;
+        dom.chatMessages.innerHTML = '';
+        const history = getChatHistory(chatId);
+        history.forEach(msg => {
+            const bubble = appendMessage(msg.role, msg.text);
+            if(msg.role === 'bot') finalizeBotBubble(bubble, msg.text);
+        });
+        loadChatsList();
+    };
+    
+    const loadChatsList = () => {
+        dom.chatsList.innerHTML = '';
+        const index = getChatIndex();
+        index.forEach(chatInfo => {
+            const btn = document.createElement('button');
+            btn.className = `w-full text-left px-3 py-2 text-sm rounded-md truncate transition-colors ${state.currentChatId === chatInfo.id ? 'bg-gray-700' : 'hover:bg-gray-700/50'}`;
+            btn.textContent = chatInfo.title;
+            btn.onclick = () => loadChat(chatInfo.id);
+            dom.chatsList.appendChild(btn);
+        });
+    };
+
+    const saveMessage = (role, text) => {
+        const history = getChatHistory(state.currentChatId);
+        history.push({ role, text });
+        saveChatHistory(state.currentChatId, history);
+
+        if (history.filter(m => m.role === 'user').length === 1) {
+            const index = getChatIndex();
+            const chatIndex = index.findIndex(c => c.id === state.currentChatId);
+            if (chatIndex > -1) {
+                index[chatIndex].title = text.substring(0, 30) + (text.length > 30 ? '...' : '');
+                saveChatIndex(index);
+                loadChatsList();
+            }
+        }
+    };
+
+    const exportChat = () => {
+        if (!state.currentChatId) return alert('No active chat to export.');
+        const history = getChatHistory(state.currentChatId);
+        let content = `Chat Export - Alishba Khan AI\n${new Date().toLocaleString()}\n\n---\n\n`;
+        history.forEach(msg => {
+            content += `[${msg.role.toUpperCase()}]:\n${msg.text}\n\n---\n\n`;
+        });
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `alishba-chat-${state.currentChatId}.txt`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+    };
+
+    // --- THEME & UI HELPERS ---
+    const initializeTheme = () => {
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+        updateThemeButton();
+    };
+    
+    const toggleTheme = () => {
+        document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        updateThemeButton();
+    };
+
+    const updateThemeButton = () => {
+        dom.themeToggleBtn.innerHTML = document.documentElement.classList.contains('dark') ? '☀️ Light Mode' : '🌙 Dark Mode';
+    };
+
+    // --- FEATURE MODAL LOGIC ---
+    const openFeatureModal = (data, breadcrumb) => {
+        dom.featureContent.innerHTML = '';
+        dom.featureBreadcrumb.innerHTML = '';
+        if (breadcrumb.length > 0) {
+            const backBtn = document.createElement('button');
+            backBtn.className = 'text-sm hover:underline mr-2';
+            backBtn.textContent = '‹ Back';
+            backBtn.onclick = () => {
+                state.featureNavStack.pop();
+                const parent = state.featureNavStack.length > 0 ? state.featureNavStack[state.featureNavStack.length - 1] : { data: featureUniverse.pillars, breadcrumb: [] };
+                openFeatureModal(parent.data, parent.breadcrumb);
+            };
+            dom.featureBreadcrumb.appendChild(backBtn);
+        }
+        dom.featureBreadcrumb.innerHTML += breadcrumb.join(' / ');
+        
+        data.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'p-4 rounded-lg border hover:bg-gray-700/50 cursor-pointer transition-colors';
+            card.style.borderColor = 'var(--border)';
+            card.innerHTML = `<div class="flex items-center"><span class="text-2xl mr-3">${item.emoji || '✨'}</span><h3 class="font-bold">${item.name}</h3></div>`;
+            card.onclick = () => {
+                const nextLevel = item.categories || item.subcategories || item.features;
+                if (nextLevel) {
+                    const newBreadcrumb = [...breadcrumb, item.name];
+                    state.featureNavStack.push({ data: nextLevel, breadcrumb: newBreadcrumb });
+                    openFeatureModal(nextLevel, newBreadcrumb);
+                } else {
+                    if(item.isDefault){
+                         state.currentPersona = { name: "Alishba Khan Hacker", prompt: "" };
+                    } else {
+                         state.currentPersona = { name: item.name, prompt: `You are an expert assistant specialized in ${item.name}.` };
+                    }
+                    dom.selectedCategoryName.textContent = state.currentPersona.name;
+                    dom.featureModal.classList.add('hidden');
+                }
+            };
+            dom.featureContent.appendChild(card);
+        });
+        dom.featureModal.classList.remove('hidden');
+    };
+
+    const openLanguageModal = () => {
+        const langData = languages.map(lang => ({...lang, features: null }));
+        openFeatureModal(langData, ['Select Language']);
+        dom.featureContent.querySelectorAll('.p-4').forEach((card, index) => {
+            card.onclick = () => {
+                state.currentLanguage = languages[index].name;
+                localStorage.setItem('alishbaChatLanguage', state.currentLanguage);
+                alert(`Language set to ${state.currentLanguage}`);
+                dom.featureModal.classList.add('hidden');
+            };
+        });
+    };
+
+    // --- EVENT LISTENERS ---
+    const setupEventListeners = () => {
+        dom.sendBtn.addEventListener('click', handleSend);
+        dom.input.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } });
+        dom.input.addEventListener('input', () => {
+            dom.input.style.height = 'auto';
+            dom.input.style.height = Math.min(180, dom.input.scrollHeight) + 'px';
+        });
+        dom.newChatBtn.addEventListener('click', createNewChat);
+        dom.exportChatBtn.addEventListener('click', exportChat);
+        dom.themeToggleBtn.addEventListener('click', toggleTheme);
+        dom.menuToggle.addEventListener('click', () => dom.sidebar.classList.remove('sidebar-hidden'));
+        dom.sidebarCloseBtn.addEventListener('click', () => dom.sidebar.classList.add('sidebar-hidden'));
+        dom.closeFeatureModal.addEventListener('click', () => dom.featureModal.classList.add('hidden'));
+        dom.languageBtn.addEventListener('click', openLanguageModal);
+        
+        // RE-ADDED: Event listener for the new category selector button
+        dom.categorySelectorBtn.addEventListener('click', () => {
+            state.featureNavStack = [{ data: featureUniverse.pillars, breadcrumb: [] }];
+            openFeatureModal(featureUniverse.pillars, []);
+        });
+    };
+});
+</script>
+
+</body>
+</html>
